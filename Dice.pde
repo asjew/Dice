@@ -1,3 +1,4 @@
+int ballX = 10;
 void setup()
 {
   size(400, 400);
@@ -6,23 +7,36 @@ void setup()
 }
 void draw()
 {
-  background(0);
-  for (int x = 30; x < 370; x = x + 140)
+  background(218, 229, 223);
+  int numDots = 0;
+  for(int y = 80; y <= 300; y+=100)
   {
-    Die dieTop = new Die(x, 80);
-    dieTop.roll();
-    dieTop.show();
-    Die dieMiddle = new Die(x, 180);
-    dieMiddle.roll();
-    dieMiddle.show();
-    Die dieBottom = new Die(x, 280);
-    dieBottom.roll();
-    dieBottom.show();
+    for (int x = 30; x < 375; x = x + 145)
+    {
+      Die sample = new Die(x, y);
+      sample.roll();
+      sample.show();
+      if (sample.dots <= 6)
+        numDots = numDots + sample.dots;
+    }
   }
+  //text
+  String count = "Total number of dots in this roll: " + numDots;
+  fill(0);
+  textSize(13);
+  text(count, 120, 30, 70);
+  String rollDisplay = "Roll Count: " + rollCount;
+  text(rollDisplay, 48, 60, 70);
+  //ball
+  fill((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
+  ellipse(ballX, 380, 20, 20);
+  ballX = ballX + 20;
 }
+int rollCount = 0;
 void mousePressed()
 {
-  redraw();
+    redraw();
+    rollCount = rollCount + 1;
 }
 class Die //models one single dice cube
 {
@@ -39,10 +53,9 @@ class Die //models one single dice cube
   }
   void show()
   {
-    fill(255, 255, 255);
+     fill((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
     rect(myX, myY, mySize, mySize);
     fill(0);
-
     switch(dots){
   case 1:
     ellipse(myX + mySize/2, myY + mySize/2, 5, 5);
